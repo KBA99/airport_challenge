@@ -1,13 +1,12 @@
 describe "airport user story" do
 
   describe '#land' do
-    let(:airport) {Airport.new(Airport::DEFAULT_CAPACITY)}
-    let(:plane) {Plane.new}
-  # As an air traffic controller 
-# So I can get passengers to a destination 
-# I want to instruct a plane to land at an airport
+    let(:airport) { Airport.new(Airport::DEFAULT_CAPACITY) }
+    let(:plane) { Plane.new }
+    # As an air traffic controller 
+  # So I can get passengers to a destination 
+  # I want to instruct a plane to land at an airport
 
-#Stub not working here
     context 'when not stormy' do
       before do
         allow(airport).to receive(:stormy?).and_return(false)
@@ -41,41 +40,40 @@ describe "airport user story" do
     end
   end
 
-
   describe '#take_off' do
-    let(:airport) {Airport.new(Airport::DEFAULT_CAPACITY)}
-    let(:plane) {Plane.new}
+    let(:airport) { Airport.new(Airport::DEFAULT_CAPACITY) }
+    let(:plane) { Plane.new }
 
     #   As an air traffic controller 
     # So I can get passengers on the way to their destination 
     # I want to instruct a plane to take off from an airport
     context 'when not stormy' do
       before do
-      allow(airport).to receive(:stormy?).and_return(false)
+        allow(airport).to receive(:stormy?).and_return(false)
       end
 
       it 'instructs plane to take off' do
-        expect {airport.take_off(plane)}.not_to raise_error
+        expect { airport.take_off(plane) }.not_to raise_error
       end
 
-    #       As an air traffic controller 
+    # As an air traffic controller 
     # So I can get passengers on the way to their destination 
     # I want to confirm that the place is no longer in the airport
-
-      it 'checks if a plane is in flight' do
+      it 'removes a plane from airport after taking off' do
         airport.land(plane)
         airport.take_off(plane)
-        expect{ plane.in_journey? }.not_to raise_error
+        expect(airport.planes_landed).not_to include(plane)
       end
+      
     end
 
-#     As an air traffic controller 
-# To ensure safety 
-# I want to prevent takeoff when weather is stormy 
+  #     As an air traffic controller 
+  # To ensure safety 
+  # I want to prevent takeoff when weather is stormy 
 
     context 'when stormy' do
       before do
-      allow(airport).to receive(:stormy?).and_return(true)
+        allow(airport).to receive(:stormy?).and_return(true)
       end 
 
       it 'prevents plane from taking off when weather is stormy' do

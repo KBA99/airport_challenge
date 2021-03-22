@@ -41,11 +41,12 @@ describe Airport do
     end
   end
 
-
+  # Stub not working here
   describe '#take_off' do
+    let(:plane1) { double :plane }
     context 'when not stormy' do
       before do
-      allow(airport).to receive(:stormy?).and_return(false)
+        allow(airport).to receive(:stormy?).and_return(false)
       end
 
       it 'instructs plane to takeoff' do 
@@ -53,10 +54,16 @@ describe Airport do
       end
     end
 
-    
+    it 'removes plane from airport after taking off' do
+      airport.land(plane)
+      airport.land(plane1)
+      airport.take_off(plane1)
+      expect(airport.planes_landed).not_to include(plane1)
+    end
+
     context 'when stormy' do
       before do
-      allow(airport).to receive(:stormy?).and_return(true)
+        allow(airport).to receive(:stormy?).and_return(true)
       end 
 
       it 'prevents plane from taking off when weather is stormy' do
