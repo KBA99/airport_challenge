@@ -14,7 +14,7 @@ class Airport
   end
 
   def take_off(plane)
-    
+    raise "Cannot take off plane when stormy" if stormy?
   end
 
   private
@@ -23,7 +23,8 @@ class Airport
     @planes_landed.length >= @capacity
   end
 
+  # this code is affecting the 100% code coverage
   def stormy?
-    p rand(1..7) > 7
+    p rand(1..7) > 5
   end
 end
