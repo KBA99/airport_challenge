@@ -1,7 +1,7 @@
 require 'airport_challenge'
 
 describe Airport do
-  let(:airport) { Airport.new(20) } 
+  let(:airport) { Airport.new(Airport::DEFAULT_CAPACITY) } 
   let(:plane) { double :plane }
 
   describe '#land' do
@@ -17,8 +17,15 @@ describe Airport do
 
       context 'when at capactiy' do
         it 'raises an error ' do
-          20.times { airport.land(plane) }
+          Airport::DEFAULT_CAPACITY.times { airport.land(plane) }
           expect { airport.land(plane) }.to raise_error 'Cannot land plane: airport full'
+        end
+      end
+
+      context 'airport has a default capacity' do 
+        it 'raises an error when planes landed exceed default capacity' do
+          Airport::DEFAULT_CAPACITY.times { airport.land(plane) }
+          expect { airport.land(plane) }.to raise_error "Cannot land plane: airport full"
         end
       end
     end
@@ -46,8 +53,7 @@ describe Airport do
       end
     end
 
-
-
+    
     context 'when stormy' do
       before do
       allow(airport).to receive(:stormy?).and_return(true)
