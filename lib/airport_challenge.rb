@@ -8,7 +8,7 @@ class Airport
   end
 
   def land(plane)
-    raise "Cannot land plane: airport full" if at_maximum_capacity
+    raise "Cannot land plane: airport full" if full?
     @planes_landed.append(plane)
   end
 
@@ -16,7 +16,8 @@ class Airport
   end
 
   private
-  def at_maximum_capacity
+  
+  def full?
     @planes_landed.length >= @capacity
   end
 
